@@ -5,7 +5,7 @@ import shutil
 
 source = os.environ.get("INPUT_SOURCE")
 destination = os.environ.get("INPUT_DESTINATION")
-debug = os.environ.get("INPUT_DEBUG")
+debug_enabled = os.environ.get("INPUT_DEBUG")
 if os.path.isfile('.testenv'):
     lines = open('.testenv').readlines()
     source = lines[0].split('=')[1].strip()
