@@ -1,0 +1,33 @@
+name: 'Copy a folder to public repository while filtering not ready to release .md files'
+description: 'Copy to public repository while filtering not ready to release .md files'
+inputs:
+  source:
+    description: 'Source repository sub directory to mirror'
+    required: true
+  destination:
+    description: 'Directory where files will be copied'
+    required: true
+  debug:
+    description: 'Set debug mode to have more verbose logs'
+    required: false
+    default: false
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'  
+    - name: Install Dependencies
+      run: pip install -r ${GITHUB_ACTION_PATH}/requirements.txt
+      shell: bash
+    - name: Pass Inputs to Shell
+      run: |
+              echo "INPUT_SOURCE=${{ inputs.source }}" >> $GITHUB_ENV
+              echo "INPUT_DESTINATION=${{ inputs.destination }}" >> $GITHUB_ENV
+              echo "INPUT_DEBUG=${{ inputs.debug }}" >> $GITHUB_ENV
+      shell: bash              
+    - name: Run copy with filter script 
+      run: python ${GITHUB_ACTION_PATH}/copy_non_hidden_files.py
+      shell: bash
