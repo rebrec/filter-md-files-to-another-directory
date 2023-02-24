@@ -52,13 +52,16 @@ def copy_files(source, destination):
             debug("        destination_full_path  = {}".format(destination_full_path))
             if file.endswith('.md'):
                 markdown_file = frontmatter.load(source_full_path)
-                if 'hide' in markdown_file.keys(): 
-                    hide = True
-                else:
-                    hide = markdown_file['hide'] 
-                if 'hide' in markdown_file.keys() and hide == True:
-                    debug("    ==> Skipping file ('hide' attribute set to true)")
+                if not 'public' in markdown_file.keys(): 
+                    debug("    ==> Skipping file ('public' not defined)")
                     continue
+                if markdown_file['public']:
+                    publish = markdown_file['public']
+
+                if publish == False:
+                    debug("    ==> Skipping file ('public' attribute set to false)")
+                    continue
+                
                 if 'notbefore' in markdown_file.keys():
                     not_before_date = markdown_file['notbefore']
                     if isinstance(not_before_date, str):
