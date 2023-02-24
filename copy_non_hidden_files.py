@@ -55,10 +55,9 @@ def copy_files(source, destination):
                 if not 'public' in markdown_file.keys(): 
                     debug("    ==> Skipping file ('public' not defined)")
                     continue
-                if markdown_file['public']:
-                    publish = markdown_file['public']
+                public_prop = markdown_file['public']
 
-                if publish == False:
+                if public_prop == False:
                     debug("    ==> Skipping file ('public' attribute set to false)")
                     continue
                 
