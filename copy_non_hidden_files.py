@@ -6,7 +6,7 @@ import shutil
 source = os.environ.get("INPUT_SOURCE")
 destination = os.environ.get("INPUT_DESTINATION")
 debug_enabled = os.environ.get("INPUT_DEBUG")
-if debug_enabled is None: debug_enabled = True
+if debug_enabled in vars(): debug_enabled = True
 
 if os.path.isfile('.testenv'):
     lines = open('.testenv').readlines()
