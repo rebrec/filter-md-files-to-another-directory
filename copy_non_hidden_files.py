@@ -52,7 +52,11 @@ def copy_files(source, destination):
             debug("        destination_full_path  = {}".format(destination_full_path))
             if file.endswith('.md'):
                 markdown_file = frontmatter.load(source_full_path)
-                if 'hide' in markdown_file.keys() and markdown_file['hide'] == True:
+                if 'hide' in markdown_file.keys(): 
+                    hide = True
+                else:
+                    hide = markdown_file['hide'] 
+                if 'hide' in markdown_file.keys() and hide == True:
                     debug("    ==> Skipping file ('hide' attribute set to true)")
                     continue
                 if 'notbefore' in markdown_file.keys():
