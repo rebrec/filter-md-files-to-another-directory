@@ -16,7 +16,7 @@ if os.path.isfile('.testenv'):
     lines = open('.testenv').readlines()
     source = lines[0].split('=')[1].strip()
     destination = lines[1].split('=')[1].strip()
-    debug_enabled = lines[2].split('=')[1].strip()
+    debug_enabled = lines[2].split('=')[1].strip() == "true"
 
 if source.endswith(os.path.sep):
     source = source[:-1]
@@ -63,6 +63,8 @@ def copy_files(source, destination):
                 
                 if 'notbefore' in markdown_file.keys():
                     not_before_date = markdown_file['notbefore']
+                    if not_before_date is None:
+                        not_before_date = "<Value not found in document>"
                     if isinstance(not_before_date, str):
                         debug("    ==> Invalid 'notbefore' date found '{}', will be skipped".format(not_before_date))
                         continue
@@ -71,7 +73,7 @@ def copy_files(source, destination):
                         debug("        - {}(today) < {} : will be skipped for current day".format(today, not_before_date))
                         continue            
             
-            debug("    copying to {}".format(destination_full_path))
+            print("    copying to {}".format(destination_full_path))
             os.makedirs(os.path.dirname(destination_full_path), exist_ok=True)
             shutil.copyfile(source_full_path, destination_full_path)
 
